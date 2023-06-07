@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
 
 public class UserDAO {
 
@@ -25,7 +27,7 @@ public class UserDAO {
 			e.printStackTrace();
 		}
 		
-	}
+	}	
 	
 	public int login(String userID, String userPW) {
 		String SQL = "SELECT PW FROM MEMBERS WHERE ID = ?";
@@ -64,5 +66,26 @@ public class UserDAO {
 		}
 		return -1;	// DB오류
 	}
+	
+	public User getUser(String userID) {
+	    String SQL = "SELECT * FROM MEMBERS WHERE ID = ?";
+	    try {
+	        pstmt = conn.prepareStatement(SQL);
+	        pstmt.setString(1, userID);
+	        rs = pstmt.executeQuery();
+	        if (rs.next()) {
+	            User user = new User();
+	            user.setUserID(rs.getString("ID"));
+	            user.setUserPW(rs.getString("PW"));
+	            user.setUserName(rs.getString("NAME"));
+	            user.setUserMail(rs.getString("MAIL"));
+	            return user;
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return null; // 회원정보가 없을 경우 null 반환
+	}
+
 	
 }
