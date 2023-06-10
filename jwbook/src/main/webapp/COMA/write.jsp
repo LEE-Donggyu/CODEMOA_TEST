@@ -1,9 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.io.PrintWriter" %>
-<%@ page import="write.WriteDAO" %>
-<%@ page import="write.Write" %>
-<%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,32 +8,6 @@
 <meta name="viewport" content="width=device-width", initial-scale="1">
 <link rel="stylesheet" href="css/bootstrap.css">
 <title>로그인 화면</title>
-<style>
-.main_title{
-	text-align: center;
-}
-
-.container {
-    width: 700px;
-    margin: 0 auto;
-}
-
-.list_start {
-    text-align: center;
-}
-
-.list_detail {
-    display: inline-block;
-    width: 220px;
-    height: 260px;
-	border: 1px solid;
-    margin-bottom: 5px;
-}
-
-.paging_start{
-	text-align: center;
-}
-  </style>
 </head>
 <body>
 
@@ -44,10 +15,6 @@
 		String userID = null;
 		if(session.getAttribute("userID") != null){
 			userID = (String) session.getAttribute("userID");
-		}
-		int pageNumber = 1;
-		if (request.getParameter("pageNumber") != null){
-			pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
 		}
 	%>
 
@@ -63,8 +30,8 @@
 		</div>
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<li class="active"><a href="main.jsp">메인</a></li>
-				<li><a href="write.jsp" class="btn btn-second">글쓰기</a></li>
+				<li><a href="main.jsp">메인</a></li>
+				<li class="active"><a href="write.jsp">글쓰기</a></li>
 			</ul>
 			
 			<%
@@ -105,29 +72,27 @@
 
 		</div>
 	</nav>
+	<h2 style="text-align: center;"> 게시글 작성 </h2>
 	<div class="container">
-		<!-- 상단 제목 -->
-		<div class="main_title">
-			<p>코드모아</p>
-		</div>
-		<!-- 리스트  -->
-			<div class="list_start">
-					<%
-						WriteDAO writeDAO = new WriteDAO();
-						ArrayList<Write> list = writeDAO.getList(pageNumber);
-						for (int i = 0; i < list.size(); i++){
-					%>
-					<tr>
-						<div class="list_detail"><%= list.get(i).getId() %>
-						<a href="view.jsp?id=<%= list.get(i).getId()%>"><%= list.get(i).getTitle() %></a>
-						<%= list.get(i).getContent() %>
-						</div>
-					</tr>
-					<%
-						}
-					%>
+		<form action="writeAction.jsp" method="post">
+			<div class="form-group">
+				<label for="title">제목</label>
+				<input type="text" class="form-control" id="title" name="title" placeholder="제목을 입력하세요.">
 			</div>
+			<div class="form-group">
+				<label for="author">작성자</label>
+				<input type="text" class="form-control" id="author" name="author" placeholder="작성자를 입력하세요.">
+			</div>
+			<div class="form-group">
+				<label for="content">내용</label>
+				<textarea class="form-control" id="content" name="content" rows="3"></textarea>
+			</div>
+			<button type="submit" class="btn btn-primary">작성</button>
+		</form>
+	
+	
 	</div>
+	
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="js/bootstrap.js"></script>
 </body>
