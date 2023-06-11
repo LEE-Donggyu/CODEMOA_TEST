@@ -3,12 +3,20 @@
 <%@ page import="java.io.PrintWriter" %>
 <%@ page import="write.Write" %>
 <%@ page import="write.WriteDAO" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width", initial-scale="1">
+<meta name="viewport" content="width=device-width" initial-scale="1">
 <link rel="stylesheet" href="css/bootstrap.css">
+<!-- highlight.js -->
+<link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css"> <!-- 구문 강조 CSS호출 -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script> <!-- 구문강조 js호출 -->
+<script>hljs.highlightAll();</script>
+<!-- highlight.js -->
 <title>로그인 화면</title>
 </head>
 <body>
@@ -29,6 +37,7 @@
 			script.println("</script>");
 		}
 		Write viewPost = new WriteDAO().getWrite(id);
+		String lang = viewPost.getLang();
 	%>
 
 	<nav class="navbar navbar-default">
@@ -104,7 +113,7 @@
 					</tr>
 					<tr>
 						<td style="width: 20%;">코드</td>
-						<td colspan="2" style="min-height: 200px; text-align: left;"><%= viewPost.getCodeContent() %></td>
+						<td colspan="2" style="min-height: 200px; text-align: left;"><pre><code class="<%= viewPost.getLang() %>"> <%=viewPost.getCodeContent().replaceAll("<", "&lt;").replaceAll(">", "&gt;")%> </code></pre></td>
 					</tr>
 				</tbody>
 			</table>
@@ -113,7 +122,7 @@
 				if(userID != null && userID. equals (viewPost.getAuthor())) {
 			%>
 				<a href="update.jsp?id=<%= id %>" class="btn btn-primary">수정</a>
-				<a href="deleteAction.jsp?bbsID=<%= id %>" class="btnbtn-primary">삭제</a>
+				<a onclick="return confirm('정말로 삭제하시겠습니까?')" href="deleteAction.jsp?id=<%= id %>" class="btn btnbtn-primary">삭제</a>
 			<%
 				}
 			%>

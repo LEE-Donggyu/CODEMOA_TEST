@@ -6,6 +6,7 @@ public class Write {
     private String author;
     private String content;
     private String codeContent;
+    private String lang;
 
     public int getId() {
         return id;
@@ -45,6 +46,14 @@ public class Write {
     
     public void setCodeContent(String codeContent) {
     	this.codeContent = codeContent;
+    }
+    
+    public String getLang() {
+    	return lang;
+    }
+    
+    public void setLang(String lang) {
+    	this.lang = lang;
     }
 }
 

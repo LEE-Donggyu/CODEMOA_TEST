@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.io.PrintWriter" %>
+<%@ page import="write.Write" %>
+<%@ page import="write.WriteDAO" %>
 <%@ page import="write.Lang" %>
 <!DOCTYPE html>
 <html>
@@ -16,6 +18,32 @@
 		String userID = null;
 		if(session.getAttribute("userID") != null){
 			userID = (String) session.getAttribute("userID");
+		}
+		if (userID == null){
+			PrintWriter script = response.getWriter();
+			script.println("<script>");
+			script.println("alert('로그인이 필요합니다.')");
+			script.println("location.href='main.jsp'");
+			script.println("</script>");
+		}
+		int id = 0;
+		if (request.getParameter("id") != null) {
+			id = Integer.parseInt(request.getParameter("id"));
+		}
+		if (id == 0){
+			PrintWriter script = response.getWriter();
+			script.println("<script>");
+			script.println("alert('유효하지 않은 글입니다.')");
+			script.println("location.href='main.jsp'");
+			script.println("</script>");
+		}
+		Write viewPost = new WriteDAO().getWrite(id);
+		if (!userID.equals(viewPost.getAuthor())) {
+			PrintWriter script = response.getWriter();
+			script.println("<script>");
+			script.println("alert('권한이 없습니다.')");
+			script.println("location.href='main.jsp'");
+			script.println("</script>");
 		}
 	%>
 
@@ -34,27 +62,6 @@
 				<li><a href="main.jsp">메인</a></li>
 				<li class="active"><a href="write.jsp">글쓰기</a></li>
 			</ul>
-			
-			<%
-				if(userID == null){
-			%>		
-			
-			<ul class="nav navbar-nav navbar-right">
-				<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown"
-						role="button" aria-haspopup="true" aria-expanded="false">접속하기<span class="caret"></span></a>
-					
-					<ul class="dropdown-menu">
-						<li><a href="login.jsp">로그인</a></li>
-						<li><a href="signup.jsp">회원가입</a></li>
-					</ul>
-				</li>
-			</ul>
-			<%
-				}
-				else{
-			%>
-			 
 			 <ul class="nav navbar-nav navbar-right">
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown"
@@ -66,23 +73,18 @@
 					</ul>
 				</li>
 			</ul>
-			 
-			<%		
-				}
-			 %>
-
 		</div>
 	</nav>
-	<h2 style="text-align: center;"> 게시글 작성 </h2>
+	<h2 style="text-align: center;"> 게시글 수정 </h2>
 	<div class="container">
-		<form action="writeAction.jsp" method="post">
+		<form action="updateAction.jsp?id=<%= id %>" method="post">
 			<div class="form-group">
 				<label for="title">제목</label>
-				<input type="text" class="form-control" id="title" name="title" placeholder="제목을 입력하세요.">
+				<input type="text" class="form-control" id="title" name="title" value="<%= viewPost.getTitle() %>">
 			</div>
 			<div class="form-group">
 				<label for="content">내용</label>
-				<textarea class="form-control" id="content" name="content" rows="3"></textarea>
+				<textarea class="form-control" id="content" name="content" rows="3"><%= viewPost.getContent() %></textarea>
 			</div>
 			<div class="form-group">
     			<label for="language">언어</label>
@@ -98,7 +100,7 @@
 			</div>
 			<div class="form-group">
 				<label for="content">코드작성</label>
-				<textarea class="form-control" id="codeContent" name="codeContent" rows="3"></textarea>
+				<textarea class="form-control" id="codeContent" name="codeContent" rows="3"><%=viewPost.getCodeContent() %></textarea>
 			</div>
 			<button type="submit" class="btn btn-primary">작성</button>
 		</form>

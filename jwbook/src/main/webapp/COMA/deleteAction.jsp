@@ -1,15 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="write.WriteDAO" %>
+<%@ page import="write.Write" %>
 <%@ page import="java.io.PrintWriter"%>
 <% request.setCharacterEncoding("UTF-8"); %>
 
-<jsp:useBean id="bbs" class="write.Write" scope="page" />
-<jsp:setProperty name="bbs" property="title" />
-<jsp:setProperty name="bbs" property="content" />
-<jsp:setProperty name="bbs" property="author" />
-<jsp:setProperty name="bbs" property="codeContent"/>
-<jsp:setProperty name="bbs" property="lang"/> 
 
 <!DOCTYPE html>
 <html>
@@ -23,7 +18,6 @@
 <body>
 
 	<%
-	
 		String userID = null;
 		if(session.getAttribute("userID") != null){
 			userID = (String) session.getAttribute("userID");
@@ -35,20 +29,33 @@
 			script.println("alert('로그인을 하세요.')");
 			script.println("location.href='login.jsp'");
 			script.println("</script>");
-		} else {
-			if(bbs.getTitle() == null || bbs.getContent() == null){
-				PrintWriter script = response.getWriter();
-				script.println("<script>");
-				script.println("alert('입력이 안 된 사항이 있습니다.')");
-				script.println("history.back()");
-				script.println("</script>");
-			}else{
+		} 
+		
+		int id = 0;
+		if (request.getParameter("id") != null) {
+			id = Integer.parseInt(request.getParameter("id"));
+		}
+		if (id == 0){
+			PrintWriter script = response.getWriter();
+			script.println("<script>");
+			script.println("alert('유효하지 않은 글입니다.')");
+			script.println("location.href='main.jsp'");
+			script.println("</script>");
+		}
+		Write viewPost = new WriteDAO().getWrite(id);
+		if (!userID.equals(viewPost.getAuthor())) {
+			PrintWriter script = response.getWriter();
+			script.println("<script>");
+			script.println("alert('권한이 없습니다.')");
+			script.println("location.href='main.jsp'");
+			script.println("</script>");
+		} else{
 				WriteDAO writeDAO = new WriteDAO();
-				int result = writeDAO.write(bbs.getTitle(), userID, bbs.getContent(), bbs.getCodeContent(), bbs.getLang());
+				int result = writeDAO.delete(id);
 				if(result==-1){
 					PrintWriter script = response.getWriter();
 					script.println("<script>");
-					script.println("alert('글쓰기에 실패했습니다.')");
+					script.println("alert('글 삭제에 실패했습니다.')");
 					script.println("history.back()");
 					script.println("</script>");
 				}
@@ -60,7 +67,6 @@
 					script.println("</script>");
 				}
 			}
-		}
 	%>
 
 </body>

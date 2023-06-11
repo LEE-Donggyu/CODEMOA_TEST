@@ -42,8 +42,8 @@ public class WriteDAO {
 		return -1; //데이터베이스 오류
 	}
 	
-	public int write(String title, String userID, String content, String codeContent) {
-		String SQL = "INSERT INTO WRITE VALUES(?, ?, ?, ?, ?)";
+	public int write(String title, String userID, String content, String codeContent, String lang) {
+		String SQL = "INSERT INTO WRITE VALUES(?, ?, ?, ?, ?, ?)";
 	    try {
 	    	PreparedStatement pstmt = conn.prepareStatement(SQL);
 	        pstmt.setInt(1, getNext());
@@ -51,6 +51,7 @@ public class WriteDAO {
 	        pstmt.setString(3, userID);
 	        pstmt.setString(4, content);
 	        pstmt.setString(5, codeContent);
+	        pstmt.setString(6, lang);
 	        return pstmt.executeUpdate();
 	    } catch (Exception e) {
 	        e.printStackTrace();
@@ -73,6 +74,7 @@ public class WriteDAO {
 				writePost.setAuthor(rs.getString(3));
 				writePost.setContent(rs.getString(4));
 				writePost.setCodeContent(rs.getString(5));
+				writePost.setLang(rs.getString(6));
 				list.add(writePost);
 			}
 		} catch (Exception e) {
@@ -109,6 +111,7 @@ public class WriteDAO {
 				writePost.setAuthor(rs.getString(3));
 				writePost.setContent(rs.getString(4));
 				writePost.setCodeContent(rs.getString(5));
+				writePost.setLang(rs.getString(6));
 				return writePost;
 			}
 		} catch (Exception e) {
@@ -116,6 +119,35 @@ public class WriteDAO {
 		}
 		return null;
 	}
+	
+	public int update(int id, String title, String content, String codeContent, String lang) {
+		String SQL = "UPDATE WRITE SET title = ?, content = ?, codeContent = ?, lang = ? WHERE id = ?";
+	    try {
+	    	PreparedStatement pstmt = conn.prepareStatement(SQL);
+	        pstmt.setString(1, title);
+	        pstmt.setString(2, content);
+	        pstmt.setString(3, codeContent);
+	        pstmt.setString(4, lang);
+	        pstmt.setInt(5, id);
+	        return pstmt.executeUpdate();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return -1; //데이터베이스 오류
+	}
+	
+	public int delete(int id) {
+	    String SQL = "DELETE FROM WRITE WHERE id = ?";
+	    try {
+	        PreparedStatement pstmt = conn.prepareStatement(SQL);
+	        pstmt.setInt(1, id);
+	        return pstmt.executeUpdate();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return -1; // 데이터베이스 오류
+	}
+
 	
 }
 
