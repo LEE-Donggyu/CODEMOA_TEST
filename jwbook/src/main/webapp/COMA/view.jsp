@@ -1,9 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.io.PrintWriter" %>
-<%@ page import="write.WriteDAO" %>
 <%@ page import="write.Write" %>
-<%@ page import="java.util.ArrayList" %>
+<%@ page import="write.WriteDAO" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,44 +10,25 @@
 <meta name="viewport" content="width=device-width", initial-scale="1">
 <link rel="stylesheet" href="css/bootstrap.css">
 <title>로그인 화면</title>
-<style>
-.main_title{
-	text-align: center;
-}
-
-.container {
-    width: 700px;
-    margin: 0 auto;
-}
-
-.list_start {
-    text-align: center;
-}
-
-.list_detail {
-    display: inline-block;
-    width: 220px;
-    height: 260px;
-	border: 1px solid;
-    margin-bottom: 5px;
-}
-
-.paging_start{
-	text-align: center;
-}
-  </style>
 </head>
 <body>
-
 	<%
 		String userID = null;
 		if(session.getAttribute("userID") != null){
 			userID = (String) session.getAttribute("userID");
 		}
-		int pageNumber = 1;
-		if (request.getParameter("pageNumber") != null){
-			pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+		int id = 0;
+		if (request.getParameter("id") != null) {
+			id = Integer.parseInt(request.getParameter("id"));
 		}
+		if (id == 0){
+			PrintWriter script = response.getWriter();
+			script.println("<script>");
+			script.println("alert('유효하지 않은 글입니다.')");
+			script.println("location.href='main.jsp'");
+			script.println("</script>");
+		}
+		Write viewPost = new WriteDAO().getWrite(id);
 	%>
 
 	<nav class="navbar navbar-default">
@@ -63,8 +43,8 @@
 		</div>
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<li class="active"><a href="main.jsp">메인</a></li>
-				<li><a href="write.jsp" class="btn btn-second">글쓰기</a></li>
+				<li><a href="main.jsp">메인</a></li>
+				<li class="active"><a href="write.jsp">글쓰기</a></li>
 			</ul>
 			
 			<%
@@ -105,28 +85,34 @@
 
 		</div>
 	</nav>
+	<h2 style="text-align: center;"> 게시글 보기 </h2>
 	<div class="container">
-		<!-- 상단 제목 -->
-		<div class="main_title">
-			<p>코드모아</p>
-		</div>
-		<!-- 리스트 -->
-			<div class="list_start">
-					<%
-						WriteDAO writeDAO = new WriteDAO();
-						ArrayList<Write> list = writeDAO.getList(pageNumber);
-						for (int i = 0; i < list.size(); i++){
-					%>
+			<table class="table table-striped" style="text-align: center; border: 1px solid #dddddd">
+				<thead>
 					<tr>
-						<div class="list_detail"><%= list.get(i).getId() %>
-						<a href="view.jsp?id=<%= list.get(i).getId()%>"><%= list.get(i).getTitle() %></a>
-						<%= list.get(i).getContent() %>
-						</div>
+						<th colspan="3" style="background-color: #eeeeee; text-align: center;"><%= viewPost.getTitle() %></th>
 					</tr>
-					<%
-						}
-					%>
-			</div>
+				</thead>
+				<tbody>
+					<tr>
+						<td style="width: 20%;">작성자</td>
+						<td colspan="2"><%= viewPost.getAuthor() %></td>
+					</tr>
+					<tr>
+						<td style="width: 20%;">내용</td>
+						<td colspan="2" style="min-height: 200px; text-align: left;"><%= viewPost.getContent() %></td>
+					</tr>
+				</tbody>
+			</table>
+			<a href="main.jsp" class="btn btn-primary">목록</a>
+			<%
+				if(userID != null && userID. equals (viewPost.getAuthor())) {
+			%>
+				<a href="update.jsp?id=<%= id %>" class="btn btn-primary">수정</a>
+				<a href="deleteAction.jsp?bbsID=<%= id %>" class="btnbtn-primary">삭제</a>
+			<%
+				}
+			%>
 	</div>
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="js/bootstrap.js"></script>

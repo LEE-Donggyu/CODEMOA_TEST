@@ -80,10 +80,6 @@
 				<input type="text" class="form-control" id="title" name="title" placeholder="제목을 입력하세요.">
 			</div>
 			<div class="form-group">
-				<label for="author">작성자</label>
-				<input type="text" class="form-control" id="author" name="author" placeholder="작성자를 입력하세요.">
-			</div>
-			<div class="form-group">
 				<label for="content">내용</label>
 				<textarea class="form-control" id="content" name="content" rows="3"></textarea>
 			</div>

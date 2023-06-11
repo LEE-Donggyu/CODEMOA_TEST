@@ -41,7 +41,7 @@
 				script.println("</script>");
 			}else{
 				WriteDAO writeDAO = new WriteDAO();
-				int result = writeDAO.write(bbs.getTitle(), bbs.getAuthor(), bbs.getContent());
+				int result = writeDAO.write(bbs.getTitle(), userID, bbs.getContent(), bbs.getCodeContent());
 				if(result==-1){
 					PrintWriter script = response.getWriter();
 					script.println("<script>");

@@ -42,14 +42,15 @@ public class WriteDAO {
 		return -1; //데이터베이스 오류
 	}
 	
-	public int write(String title, String author, String content) {
-		String SQL = "INSERT INTO WRITE VALUES(?, ?, ?, ?)";
+	public int write(String title, String userID, String content, String codeContent) {
+		String SQL = "INSERT INTO WRITE VALUES(?, ?, ?, ?, ?)";
 	    try {
 	    	PreparedStatement pstmt = conn.prepareStatement(SQL);
 	        pstmt.setInt(1, getNext());
 	        pstmt.setString(2, title);
-	        pstmt.setString(3, author);
+	        pstmt.setString(3, userID);
 	        pstmt.setString(4, content);
+	        pstmt.setString(5, codeContent);
 	        return pstmt.executeUpdate();
 	    } catch (Exception e) {
 	        e.printStackTrace();
@@ -70,7 +71,7 @@ public class WriteDAO {
 				writePost.setId(rs.getInt(1));
 				writePost.setTitle(rs.getString(2));
 				writePost.setAuthor(rs.getString(3));
-				//write.setContent(rs.getString(4));
+				writePost.setContent(rs.getString(4));
 				list.add(writePost);
 			}
 		} catch (Exception e) {
@@ -92,6 +93,26 @@ public class WriteDAO {
 			e.printStackTrace();
 		}
 		return false;
+	}
+	
+	public Write getWrite(int ID) {
+		String SQL = "SELECT * FROM WRITE WHERE ID = ?";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setInt(1, ID);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				Write writePost = new Write();
+				writePost.setId(rs.getInt(1));
+				writePost.setTitle(rs.getString(2));
+				writePost.setAuthor(rs.getString(3));
+				writePost.setContent(rs.getString(4));
+				return writePost;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 }

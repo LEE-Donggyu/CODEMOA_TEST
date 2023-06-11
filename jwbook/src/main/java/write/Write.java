@@ -5,6 +5,7 @@ public class Write {
     private String title;
     private String author;
     private String content;
+    private String codeContent;
 
     public int getId() {
         return id;
@@ -36,6 +37,14 @@ public class Write {
     
     public void setAuthor(String author) {
     	this.author = author;
+    }
+    
+    public String getCodeContent() {
+    	return codeContent;
+    }
+    
+    public void setCodeContent(String codeContent) {
+    	this.codeContent = codeContent;
     }
 }
 
