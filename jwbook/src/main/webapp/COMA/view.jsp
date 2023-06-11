@@ -102,6 +102,10 @@
 						<td style="width: 20%;">내용</td>
 						<td colspan="2" style="min-height: 200px; text-align: left;"><%= viewPost.getContent() %></td>
 					</tr>
+					<tr>
+						<td style="width: 20%;">코드</td>
+						<td colspan="2" style="min-height: 200px; text-align: left;"><%= viewPost.getCodeContent() %></td>
+					</tr>
 				</tbody>
 			</table>
 			<a href="main.jsp" class="btn btn-primary">목록</a>

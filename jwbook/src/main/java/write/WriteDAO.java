@@ -72,6 +72,7 @@ public class WriteDAO {
 				writePost.setTitle(rs.getString(2));
 				writePost.setAuthor(rs.getString(3));
 				writePost.setContent(rs.getString(4));
+				writePost.setCodeContent(rs.getString(5));
 				list.add(writePost);
 			}
 		} catch (Exception e) {
@@ -107,6 +108,7 @@ public class WriteDAO {
 				writePost.setTitle(rs.getString(2));
 				writePost.setAuthor(rs.getString(3));
 				writePost.setContent(rs.getString(4));
+				writePost.setCodeContent(rs.getString(5));
 				return writePost;
 			}
 		} catch (Exception e) {

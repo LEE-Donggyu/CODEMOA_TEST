@@ -8,6 +8,7 @@
 <jsp:setProperty name="bbs" property="title" />
 <jsp:setProperty name="bbs" property="content" />
 <jsp:setProperty name="bbs" property="author" />
+<jsp:setProperty name="bbs" property="codeContent"/>
 
 <!DOCTYPE html>
 <html>
