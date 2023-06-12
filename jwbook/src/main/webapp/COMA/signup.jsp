@@ -5,11 +5,51 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width", initial-scale="1">
-<link rel="stylesheet" href="css/bootstrap.css">
-<title>로그인 화면</title>
+<!-- <link rel="stylesheet" href="css/bootstrap.css"> -->
+<link rel="stylesheet" href="css/COMA.css">
+<link rel="stylesheet" href="css/signup.css">
+<title>COMA</title>
 </head>
 <body>
-	<nav class="navbar navbar-default">
+	<div id = "login_section">
+		  <section class = "login-form">
+
+		    <h1 id="login_title">COMA</h1>
+		
+		    <form method="post" action="signupAction.jsp">
+		
+		      <!-- 아이디 공간 -->
+		      <div class="int-area">
+		        <input type="text" name="userID" id="id" autocomplete="off" maxlength="20" required>
+		        <label for="id">아이디</label>
+		      </div>
+		 
+		      <!-- 비밀번호 공간 -->
+		      <div class="int-area">
+		        <input type="password" name="userPW" id="pw" autocomplete="off" maxlength="20" required>
+		        <label for="pw">비밀번호</label>
+		      </div>
+		      
+		      <div class="int-area">
+		        <input type="text" name="userName" id="name" autocomplete="off" maxlength="20" required>
+		        <label for="name">이름</label>
+		      </div>
+		      
+		      <div class="int-area">
+		        <input type="text" name="userMail" id="email" autocomplete="off" maxlength="20" required>
+		        <label for="email">이메일</label>
+		      </div>
+		      		
+		      <!-- 로그인 버튼 공간 -->
+		      <div class="btn-area">
+		        <button type="submit" href="signupAction.jsp">회원가입</button>
+		      </div>
+		      
+		    </form>
+		
+		  </section>
+	</div>
+<!-- 	<nav class="navbar navbar-default">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
 					data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -66,9 +106,12 @@
 				</form>
 		</div>
 		<div class="col-lg-4"></div>
-	</div>
+	</div> -->
 	
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<script src="js/bootstrap.js"></script>
+	
+	
+	
+<!-- 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="js/bootstrap.js"></script> -->
 </body>
 </html>

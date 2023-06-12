@@ -67,25 +67,129 @@ public class UserDAO {
 		return -1;	// DB오류
 	}
 	
-	public User getUser(String userID) {
-	    String SQL = "SELECT * FROM MEMBERS WHERE ID = ?";
+	public String findid(User user) {
+	    String SQL = "SELECT ID FROM MEMBERS WHERE NAME = ? AND EMAIL = ?";
 	    try {
 	        pstmt = conn.prepareStatement(SQL);
-	        pstmt.setString(1, userID);
+	        pstmt.setString(1, user.getUserName());
+	        pstmt.setString(2, user.getUserMail());
 	        rs = pstmt.executeQuery();
 	        if (rs.next()) {
-	            User user = new User();
-	            user.setUserID(rs.getString("ID"));
-	            user.setUserPW(rs.getString("PW"));
-	            user.setUserName(rs.getString("NAME"));
-	            user.setUserMail(rs.getString("MAIL"));
-	            return user;
+	            String userID = rs.getString(1);
+	            // 아이디 값을 사용하거나 리턴할 수 있습니다.
+	            return userID;
 	        }
-	    } catch (SQLException e) {
+	        return null; // 일치하는 정보가 없음
+	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
-	    return null; // 회원정보가 없을 경우 null 반환
+	    return null; // DB 오류
 	}
+	
+	public String findpw(User user) {
+	    String SQL = "SELECT ID FROM MEMBERS WHERE ID = ? AND NAME = ? AND EMAIL = ?";
+	    try {
+	        pstmt = conn.prepareStatement(SQL);
+	        pstmt.setString(1, user.getUserID());
+	        pstmt.setString(2, user.getUserName());
+	        pstmt.setString(3, user.getUserMail());
+	        rs = pstmt.executeQuery();
+	        if (rs.next()) {
+	            String userPW = rs.getString(1);
+	            // 아이디 값을 사용하거나 리턴할 수 있습니다.
+	            return userPW;
+	        }
+	        return null; // 일치하는 정보가 없음
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return null; // DB 오류
+	}
+	
+    public User getUserByID(String userID) {
+        User user = null;
 
+        try {
+            String SQL = "SELECT * FROM MEMBERS WHERE ID = ?";
+            pstmt = conn.prepareStatement(SQL);
+            pstmt.setString(1, userID);
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                user = new User();
+                user.setUserID(rs.getString("ID"));
+                user.setUserPW(rs.getString("PW"));
+                user.setUserName(rs.getString("NAME"));
+                user.setUserMail(rs.getString("EMAIL"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // 리소스 해제
+            closeResources(pstmt, rs);
+        }
+
+        return user;
+    }
+    
+    private void closeResources(PreparedStatement preparedStatement, ResultSet resultSet) {
+        try {
+            if (rs != null) {
+                rs.close();
+            }
+            if (pstmt != null) {
+            	pstmt.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+    
+    public int changePassword(String userID, String currentPW, String newPW, String newPWCheck) {
+        // 현재 비밀번호 확인
+        String SQL = "SELECT PW FROM MEMBERS WHERE ID = ?";
+        try {
+            pstmt = conn.prepareStatement(SQL);
+            pstmt.setString(1, userID);
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                String storedPW = rs.getString("PW");
+                if (!storedPW.equals(currentPW)) {
+                    return -2; // 현재 비밀번호가 일치하지 않음
+                }
+            } else {
+                return 0; // 해당 유저가 존재하지 않음
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return 0; // DB 오류
+        }
+        
+        if (!newPW.matches("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$")) {
+            return -3; // 새로운 비밀번호가 규칙에 맞지 않음
+        }
+
+        // 새로운 비밀번호 설정
+        if (!newPW.equals(newPWCheck)) {
+            return -1; // 새로운 비밀번호와 확인 비밀번호가 일치하지 않음
+        }
+        
+
+        // 비밀번호 변경
+        SQL = "UPDATE MEMBERS SET PW = ? WHERE ID = ?";
+        try {
+            pstmt = conn.prepareStatement(SQL);
+            pstmt.setString(1, newPW);
+            pstmt.setString(2, userID);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return 0; // DB 오류
+        }
+
+        return 1; // 비밀번호 변경 성공
+    }
 	
 }

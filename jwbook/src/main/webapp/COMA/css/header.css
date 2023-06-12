@@ -1,0 +1,43 @@
+#header_div {
+  padding-left: 32px;
+  padding-right: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+#header_div > * {
+  display: flex;
+}
+
+#COMA{
+	font-size:80px;
+	margin-bottom : 50px;
+}
+
+#move_main{
+	text-decoration:none;
+	color: black;
+}
+
+#move_login
+{
+	font-size:20px;
+	position:absolute;
+	right: 32px;
+	top:50%;
+	transform: translateY(-100%);
+	text-decoration:none;
+	color:black;
+}
+
+#move_profile {
+  font-size: 20px;
+  position: absolute;
+  right: 32px;
+  top: 50%;
+  transform: translateY(-100%);
+  text-decoration: none;
+  color: black;
+}
