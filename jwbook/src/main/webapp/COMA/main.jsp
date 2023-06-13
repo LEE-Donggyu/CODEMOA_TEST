@@ -127,6 +127,18 @@
 						}
 					%>
 			</div>
+			
+			<%
+				if(pageNumber != 1){
+			%>
+				<a href="main.jsp?pageNumber=<%=pageNumber - 1 %>" class="btn btn-success btn-arraw-left">이전</a>
+			<%
+				} if(writeDAO.nextPage(pageNumber + 1)){
+			%>
+				<a href="main.jsp?pageNumber=<%=pageNumber + 1 %>" class="btn btn-success btn-arraw-right">다음</a>
+			<%
+				}
+			%>
 	</div>
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="js/bootstrap.js"></script>
