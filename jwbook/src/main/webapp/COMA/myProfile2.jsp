@@ -27,23 +27,25 @@
 
 						if (user != null) {
 					%>
-					<tr>
-						<th>아이디:</th>
-						<td><%= user.getUserID() %></td>
-					</tr>
-					<tr>
-						<th>비밀번호:</th>
-						<td> *****</td>
-					</tr>
+					<div class="int-area">
+					  <input type="text" name="userID" id="id" autocomplete="off" maxlength="20" required readonly value="<%= user.getUserID() %>">
+					  <label for="id" class="input-label">아이디</label>
+					</div>
 					
-					<tr>
-						<th>이름:</th>
-						<td><%= user.getUserName() %></td>
-					</tr>
-					<tr>
-						<th>이메일:</th>
-						<td><%= user.getUserMail() %></td>
-					</tr>
+					<div class="int-area">
+					<input type="password" name="userPW" id="pw" autocomplete="off" maxlength="20" required readonly value="<%= user.getUserPW() %>">
+					  <label for="pw" class="input-label">비밀번호</label>
+					</div>
+					
+					<div class="int-area">
+					  <input type="text" name="userName" id="name" autocomplete="off" maxlength="20" require dreadonly value="<%= user.getUserName() %>">
+					  <label for="id" class="input-label">이름</label>
+					</div>
+					
+					<div class="int-area">
+					<input type="text" name="userMail" id="email" autocomplete="off" maxlength="20" required readonly value="<%= user.getUserMail() %>">
+					  <label for="id" class="input-label">이메일</label>
+					</div>
 					<%
 						}
 					%>
@@ -52,6 +54,10 @@
 		    
 			<div class="caption">
 				<a href="changepw.jsp">비밀번호 변경</a>
+			</div>
+			
+			<div class="caption">
+				<a href="logoutAction.jsp">로그아웃</a>
 			</div>
 		
 		</section>
