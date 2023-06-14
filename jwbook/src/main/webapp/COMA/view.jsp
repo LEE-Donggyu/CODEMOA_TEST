@@ -6,6 +6,8 @@
 <%@ page import="write.Comment" %>
 <%@ page import="write.CommentDAO" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="admin.Admin" %>
+<%@ page import="admin.AdminDAO" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
@@ -41,6 +43,10 @@
 		}
 		Write viewPost = new WriteDAO().getWrite(id);
 		String lang = viewPost.getLang();
+		
+		if (viewPost.getCodeContent() == null){
+			viewPost.setCodeContent("null");
+		}
 	%>
 
 	<nav class="navbar navbar-default">
@@ -121,8 +127,9 @@
 				</tbody>
 			</table>
 			<a href="main.jsp" class="btn btn-primary">목록</a>
+			<a onclick="location.href='reportAction.jsp?postId=<%= viewPost.getId() %>&content=<%= viewPost.getContent() %>'" class="btn btn-danger">게시글 신고</a>
 			<%
-				if(userID != null && userID. equals (viewPost.getAuthor())) {
+				if(userID != null && (userID. equals (viewPost.getAuthor()) || userID.equals("COMA"))) {
 			%>
 				<a href="update.jsp?id=<%= id %>" class="btn btn-primary">수정</a>
 				<a onclick="return confirm('정말로 삭제하시겠습니까?')" href="deleteAction.jsp?id=<%= id %>" class="btn btnbtn-primary">삭제</a>
@@ -154,12 +161,22 @@
 												</tr>
 												<tr>
 													<td align="left"><%=list.get(i).getCommentContent()%></td>
-													<td align="right"><a
+													<td align="right">
+													<a onclick="location.href='reportAction.jsp?postId=<%= viewPost.getId() %>&commentId=<%=list.get(i).getUserID()%>&commentContent=<%=list.get(i).getCommentContent() %>'" class="btn btn-danger">댓글 신고</a>
+													<%
+                            							if (userID != null && (userID.equals(viewPost.getAuthor()) || userID.equals("COMA"))) {
+                            						%>
+													
+													<a
 														href="commentUpdate.jsp?writeid=<%=id%>&commentID=<%=list.get(i).getCommentID()%>"
 														class="btn btn-warning">수정</a> <a
 														onclick="return confirm('정말로 삭제하시겠습니까?')"
 														href="commentDeleteAction.jsp?writeID=<%=id%>&commentID=<%=list.get(i).getCommentID()%>"
-														class="btn btn-danger">삭제</a></td>
+														class="btn btn-danger">삭제</a>
+													<%
+                            							}													
+													%>
+													</td>
 												</tr>
 											</tbody>
 										</table>

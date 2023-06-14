@@ -43,7 +43,7 @@
 			script.println("</script>");
 		}
 		Write viewPost = new WriteDAO().getWrite(id);
-		if (!userID.equals(viewPost.getAuthor())) {
+		if (!userID.equals(viewPost.getAuthor()) && !userID.equals("COMA")) {
 			PrintWriter script = response.getWriter();
 			script.println("<script>");
 			script.println("alert('권한이 없습니다.')");
