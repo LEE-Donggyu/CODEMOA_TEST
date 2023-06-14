@@ -1,20 +1,135 @@
 @import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css); 
-*{
-	font-family: 'Noto-sans KR';
-	font-style: 'normal';
+* {
+  font-family: 'Noto-sans KR' !important; 
+}
+#main_contents {
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  position: relative;
+  padding-bottom: 60px;
+  height: 100%;
 }
 
-#main_contents{
-	width: 100%;
-	height: 100%;
-	min-height:100%;
-	position:relative;
-	padding-bottom: 60px;
-	height:100%;
+.container {
+  width: 800px;
+  margin: 0 auto;
 }
 
-#login-form{
-	height: 100%;
-	position: relative;
-	padding-bottom: 60px;
+.list_start {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+  justify-items: center;
+  text-align: center;
+  width: 800px;
+  margin: 0 auto;
+}
+
+.list_detail {
+  width: 220px;
+  height: 200px;
+  border: 1px solid;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.paging_start {
+  text-align: center;
+}
+
+.hr {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+#main_title {
+  text-align: right;
+  position: relative;
+  z-index: 2;
+}
+
+#write-area {
+  text-align: right;
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+}
+
+#write-area #writebtn {
+  display: inline-block;
+  width: 80px;
+  height: 50px;
+  background-color: #166cea;
+  color: #fff;
+  font-size: 20px;
+  border: none;
+  text-decoration: none;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+}
+#codemoa_logo{
+	width: 300px;
+	height: 300px;
+	display: block;
+	margin: 0 auto;
+}
+
+#title{
+	font-weight: bold;
+	margin-top: 40px;
+	margin-bottom: 15px;
+}
+#author{
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+#lang{
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+#tag{
+	background:white;
+	font-weight: bold;
+}
+
+
+.list_start {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+  justify-items: center;
+  text-align: center;
+  width: 800px;
+  margin: 0 auto;
+}
+
+.paging_start {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.btn-arraw-left {
+  order: 1;
+  margin-right: auto;
+}
+
+.btn-arraw-right {
+  order: 2;
+  margin-left: auto;
+}
+
+#tag-area{
+	margin-top : 30px;
+}
+
+.tag-btn {
+  margin-right: 10px;
+  margin-left: 0;
 }

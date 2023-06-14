@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ page import="user.UserDAO" %>
 <%@ page import="user.User" %>
-<link rel="stylesheet" href="css/header.css">
 
 <%
     String userID = null;
