@@ -59,43 +59,83 @@ public class WriteDAO {
 	    return -1; //데이터베이스 오류
 	}
 	
-	public ArrayList<Write> getList(int pageNumber) {
-		String SQL = "SELECT * FROM WRITE WHERE ID < ? ORDER BY ID DESC LIMIT 9";
-		ArrayList<Write> list = new ArrayList<Write>();
-		try {
-			int nextID = getNext(); // 다음 게시글의 ID 값을 저장
-			PreparedStatement pstmt = conn.prepareStatement(SQL);
-			pstmt.setInt(1, nextID - (pageNumber - 1) * 9);
-			rs = pstmt.executeQuery();
-			while(rs.next()) {
-				Write writePost = new Write();
-				writePost.setId(rs.getInt(1));
-				writePost.setTitle(rs.getString(2));
-				writePost.setAuthor(rs.getString(3));
-				writePost.setContent(rs.getString(4));
-				writePost.setCodeContent(rs.getString(5));
-				writePost.setLang(rs.getString(6));
-				list.add(writePost);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return list;
+	public ArrayList<Write> getList(int pageNumber, String langFilter) {
+	    String SQL = "SELECT * FROM WRITE WHERE 1=1";
+	    if (langFilter != null && !langFilter.isEmpty()) {
+	        SQL += " AND lang = ?";
+	    }
+	    SQL += " AND ID < ? ORDER BY ID DESC LIMIT 9";
+
+	    ArrayList<Write> list = new ArrayList<Write>();
+	    try {
+	        int nextID = getNext();
+	        PreparedStatement pstmt = conn.prepareStatement(SQL);
+
+	        int parameterIndex = 1;
+	        if (langFilter != null && !langFilter.isEmpty()) {
+	            pstmt.setString(parameterIndex, langFilter);
+	            parameterIndex++;
+	        }
+	        pstmt.setInt(parameterIndex, nextID - (pageNumber - 1) * 9);
+
+	        rs = pstmt.executeQuery();
+	        while (rs.next()) {
+	            Write writePost = new Write();
+	            writePost.setId(rs.getInt(1));
+	            writePost.setTitle(rs.getString(2));
+	            writePost.setAuthor(rs.getString(3));
+	            writePost.setContent(rs.getString(4));
+	            writePost.setCodeContent(rs.getString(5));
+	            writePost.setLang(rs.getString(6));
+	            list.add(writePost);
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return list;
 	}
 	
-	public boolean nextPage(int pageNumber) {
-		String SQL = "SELECT * FROM WRITE WHERE ID < ?";
-		try {
-			PreparedStatement pstmt = conn.prepareStatement(SQL);
-			pstmt.setInt(1, getNext() - (pageNumber - 1) * 9);
-			rs = pstmt.executeQuery();
-			if(rs.next()) {
-				return true;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return false;
+	public boolean nextPage(int pageNumber, String langFilter) {
+	    String SQL = "SELECT * FROM WRITE WHERE 1=1";
+	    if (langFilter != null && !langFilter.isEmpty()) {
+	        SQL += " AND lang = ?";
+	    }
+	    SQL += " AND ID < ? ORDER BY ID DESC LIMIT 9";
+
+	    try {
+	        int nextID = getNext();
+	        PreparedStatement pstmt = conn.prepareStatement(SQL);
+
+	        int parameterIndex = 1;
+	        if (langFilter != null && !langFilter.isEmpty()) {
+	            pstmt.setString(parameterIndex, langFilter);
+	            parameterIndex++;
+	        }
+	        pstmt.setInt(parameterIndex, nextID - (pageNumber - 1) * 9);
+
+	        rs = pstmt.executeQuery();
+	        if (rs.next()) {
+	            return true;
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return false;
+	}
+	
+	public ArrayList<String> getLangList() {
+	    String SQL = "SELECT DISTINCT lang FROM WRITE";
+	    ArrayList<String> langList = new ArrayList<>();
+	    try {
+	        PreparedStatement pstmt = conn.prepareStatement(SQL);
+	        rs = pstmt.executeQuery();
+	        while (rs.next()) {
+	            langList.add(rs.getString(1));
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return langList;
 	}
 	
 	public Write getWrite(int ID) {
@@ -147,7 +187,4 @@ public class WriteDAO {
 	    }
 	    return -1; // 데이터베이스 오류
 	}
-
-	
 }
-

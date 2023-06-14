@@ -16,15 +16,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width" initial-scale="1">
 <link rel="stylesheet" href="css/bootstrap.css">
+<link rel="stylesheet" href="css/COMA.css">
 <!-- highlight.js -->
+
+
 <link rel="stylesheet"
       href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css"> <!-- 구문 강조 CSS호출 -->
 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script> <!-- 구문강조 js호출 -->
 <script>hljs.highlightAll();</script>
+
 <!-- highlight.js -->
 <title>로그인 화면</title>
 </head>
+
 <body>
+	<jsp:include page="header.jsp"></jsp:include>
 	<%
 		String userID = null;
 		if(session.getAttribute("userID") != null){
@@ -48,7 +54,7 @@
 			viewPost.setCodeContent("null");
 		}
 	%>
-
+<%-- 
 	<nav class="navbar navbar-default">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
@@ -103,6 +109,13 @@
 
 		</div>
 	</nav>
+	 --%>
+	
+	
+	
+	
+	
+	
 	<h2 style="text-align: center;"> 게시글 보기 </h2>
 	<div class="container">
 			<table class="table table-striped" style="text-align: center; border: 1px solid #dddddd">
