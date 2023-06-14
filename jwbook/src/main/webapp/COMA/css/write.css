@@ -1,0 +1,51 @@
+.write_container {
+	text-align:center;
+    width: 50%;
+    margin: 0 auto;
+    border: 1px solid black;
+    border-radius: 25px;
+    padding: 20px;
+    width: 800px;
+	margin-bottom: 50px;
+}
+.write-group{
+	text-align:left;
+	margin-top: 20px;
+}
+
+
+#write-btn {
+    text-align: center;
+    
+    width: 50px;
+    height: 25px;
+    background: black;
+    color: white;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+#write_title{
+	height : 25px;
+	width: 100%;
+	margin-top: 5px;
+}
+
+#write_content{
+	width: 100%;
+	height: 200px;
+	resize: none;
+	margin-top: 5px;
+}
+#write_codeContent{
+	width: 100%;
+	height: 500px;
+	resize: none;
+	margin-top: 5px;
+}
+#write_language{
+	margin-top: 5px;
+}
+.write_label{
+	font-weight: bold;
+}

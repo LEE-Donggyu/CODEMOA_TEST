@@ -1,3 +1,5 @@
+@import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css); 
+
 #header_div {
   padding-left: 32px;
   padding-right: 32px;
@@ -12,6 +14,7 @@
 }
 
 #CODEMOA{
+	font-family: 'Noto-sans KR'; 
 	font-size:80px;
 	margin-bottom : 50px;
 }
@@ -23,6 +26,7 @@
 
 #move_login
 {
+	  font-family: 'Noto-sans KR' !important; 
 	font-size:20px;
 	position:absolute;
 	right: 32px;
@@ -33,6 +37,7 @@
 }
 
 #move_profile {
+	  font-family: 'Noto-sans KR' !important; 
   font-size: 20px;
   position: absolute;
   right: 32px;

@@ -61,7 +61,7 @@
   display: inline-block;
   width: 80px;
   height: 50px;
-  background-color: #166cea;
+  background-color: black;
   color: #fff;
   font-size: 20px;
   border: none;
@@ -132,4 +132,18 @@
 .tag-btn {
   margin-right: 10px;
   margin-left: 0;
+  width:100px;
+  height:25px;
+  font-weight: bold;
+}
+.tag-btn::first-letter {
+  text-transform: uppercase;
+}
+.tag-btn.selected-tag {
+  color: white;
+  background-color: black;
+}
+.next-button{
+	text-decoration: none;
+	color: black;
 }
